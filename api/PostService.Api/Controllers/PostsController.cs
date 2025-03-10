@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PostService.Application.Features.Posts.Commands;
+using PostService.Domain.Entities;
 
 namespace PostService.Api.Controllers
 {
@@ -22,5 +23,11 @@ namespace PostService.Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<Post>>> GetAll()
+        {
+            var result = await _mediator.Send(new ReadAllPosts.Command());
+            return Ok(result);
+        }
     }
 }
