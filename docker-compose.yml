@@ -1,22 +1,23 @@
 services:
-  # api:
-  #   build:
-  #     context: ./api
-  #     dockerfile: Dockerfile
-  #   container_name: cockatoo-posts-api
-  #   ports:
-  #     - "3000:3000"
-  #   environment:
-  #     - DB_HOST=postgres
-  #     - DB_USER=admin
-  #     - DB_PASSWORD=admin123
-  #     - DB_NAME=postdb
-  #     - DB_PORT=5432
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
-  #   networks:
-  #     - cockatoo-posts-network
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: cockatoo-posts-api
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - DB_HOST=postgres
+      - DB_USER=admin
+      - DB_PASSWORD=admin123
+      - DB_NAME=postdb
+      - DB_PORT=5432
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - cockatoo-posts-network
 
   postgres:
     build:

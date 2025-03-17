@@ -6,15 +6,10 @@ using PostService.Domain.Entities;
 namespace PostService.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class PostsController : ControllerBase
+    [Route("api/posts")]
+    public class PostsController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator _mediator;
-
-        public PostsController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        private readonly IMediator _mediator = mediator;
 
         [HttpPost]
         public async Task<ActionResult<Guid>> Create([FromBody] CreatePost.Command command)
