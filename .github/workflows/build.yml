@@ -42,9 +42,9 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          if (Test-Path -Path ./PostService.sln) {
+          if (Test-Path -Path ./api/PostService.sln) {
             .\.sonar\scanner\dotnet-sonarscanner begin /k:"S6-AdvancedSoftware-Individual_post-service" /o:"cockatoo" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-            dotnet build ./PostService.sln
+            dotnet build ./api/PostService.sln
             .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
           } else {
             Write-Error "Solution file PostService.sln not found"
