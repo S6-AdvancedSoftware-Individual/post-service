@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PostService.Application.Common.Interfaces;
+using PostService.Domain;
 using PostService.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +40,9 @@ builder.Services.AddMediatR(cfg =>
 // Register DbContext interface
 builder.Services.AddScoped<IPostDbContext>(provider =>
     provider.GetRequiredService<PostDbContext>());
+
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 

@@ -1,11 +1,12 @@
-namespace PostService.Domain.Entities
+namespace PostService.Domain.Entities;
+
+public class Post
 {
-    public class Post
-    {
-        public Guid Id { get; set; }
-        public required string Title { get; set; }
-        public required string Content { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-    }
-} 
+    public Guid Id { get; set; }
+    public Guid AuthorId { get; set; } 
+    public string? AuthorName { get; set; }
+    public required string Title { get; set; }
+    public required string Content { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+}

@@ -24,5 +24,18 @@ namespace PostService.Api.Controllers
             var result = await _mediator.Send(new ReadAllPosts.Command());
             return Ok(result);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var result = await _mediator.Send(new DeletePost.Command(id));
+
+            if (!result)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
     }
 }
