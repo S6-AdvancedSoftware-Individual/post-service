@@ -21,14 +21,14 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Add DbContext
-var dbHost = Environment.GetEnvironmentVariable("DB_HOST") ?? "localhost";
-var dbPort = Environment.GetEnvironmentVariable("DB_PORT") ?? "5432";
-var dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "postdb";
-var dbUser = Environment.GetEnvironmentVariable("DB_USER") ?? "admin";
-var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "admin123";
+var dbUser = Environment.GetEnvironmentVariable("DB_USERID") ?? "";
+var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "";
+var dbServer = Environment.GetEnvironmentVariable("DB_SERVER") ?? "";
+var dbPort = Environment.GetEnvironmentVariable("DB_PORT") ?? "";
+var dbDatabase = Environment.GetEnvironmentVariable("DB_DATABASE") ?? "";
 
-var connectionString = $"Host={dbHost};Port={dbPort};Database={dbName};Username={dbUser};Password={dbPassword}";
+// Add DbContext
+var connectionString = $"User Id={dbUser};Password={dbPassword};Server={dbServer};Port={dbPort};Database={dbDatabase}";
 
 builder.Services.AddDbContext<PostDbContext>(options =>
     options.UseNpgsql(connectionString));
