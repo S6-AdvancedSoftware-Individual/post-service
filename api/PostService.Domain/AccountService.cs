@@ -1,3 +1,5 @@
+using Serilog;
+
 namespace PostService.Domain;
 public interface IAccountService
 {
@@ -25,6 +27,8 @@ public class AccountService : IAccountService
         }
         catch (Exception ex)
         {
+            Log.Warning(ex, "Error fetching author name for ID {AuthorId}", authorId);
+
             return string.Empty;
         }
     }

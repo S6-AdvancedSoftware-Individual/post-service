@@ -3,6 +3,7 @@ using PostService.Application.Common.Interfaces;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace PostService.Application.Features.Posts.Commands
 {
@@ -13,10 +14,13 @@ namespace PostService.Application.Features.Posts.Commands
         public class Handler : IRequestHandler<Command, bool>
         {
             private readonly IPostDbContext _context;
+            private readonly IPostDbContextSecondary _contextSecondary;
 
-            public Handler(IPostDbContext context)
+            public Handler(IPostDbContext context, IPostDbContextSecondary contextSecondary)
             {
                 _context = context;
+                _contextSecondary = contextSecondary;
+
             }
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
@@ -28,8 +32,16 @@ namespace PostService.Application.Features.Posts.Commands
                     return false;
                 }
 
-                _context.Posts.Remove(post);
-                await _context.SaveChangesAsync(cancellationToken);
+                using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    _context.Posts.Remove(post);
+                    await _context.SaveChangesAsync(cancellationToken);
+
+                    _contextSecondary.Posts.Remove(post);
+                    await _contextSecondary.SaveChangesAsync(cancellationToken);
+
+                    scope.Complete();
+                }
 
                 return true;
             }

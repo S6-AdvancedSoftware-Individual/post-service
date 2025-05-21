@@ -20,7 +20,10 @@ namespace PostService.Application.Features.Posts.Commands
 
             public async Task<List<Post>> Handle(Command request, CancellationToken cancellationToken)
             {
-                return await _context.Posts.ToListAsync(cancellationToken);
+                return await _context.Posts
+                    .OrderByDescending(p => p.UpdatedAt)
+                    .Take(25)
+                    .ToListAsync(cancellationToken);
             }
         }
     }
