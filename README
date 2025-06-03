@@ -3,19 +3,19 @@
 Add migration
 
 ```sh
-dotnet ef migrations add <MIGRATIONHERE> --project .\PostService.Infrastructure\PostService.Infrastructure.csproj --startup-project .\PostService.Api\PostService.Api.csproj
+dotnet ef migrations add <MIGRATIONHERE> --project .\PostService.Infrastructure\PostService.Infrastructure.csproj --startup-project .\PostService.Api\PostService.Api.csproj --context PostDbContext
 ```
 
 Apply migrations
 
 ```sh
-dotnet ef database update  --project .\PostService.Infrastructure\PostService.Infrastructure.csproj --startup-project .\PostService.Api\PostService.Api.csproj
+dotnet ef database update  --project .\PostService.Infrastructure\PostService.Infrastructure.csproj --startup-project .\PostService.Api\PostService.Api.csproj --context PostDbContext
 ```
 
 Undo all migrations
 
 ```sh
-dotnet ef database drop --force --project .\PostService.Infrastructure\PostService.Infrastructure.csproj --startup-project .\PostService.Api\PostService.Api.csproj
+dotnet ef database drop --force --project .\PostService.Infrastructure\PostService.Infrastructure.csproj --startup-project .\PostService.Api\PostService.Api.csproj --context PostDbContext
 ```
 
 ## Postgres FTSE

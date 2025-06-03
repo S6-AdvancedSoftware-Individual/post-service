@@ -22,7 +22,7 @@ public class SearchPosts
         public async Task<List<Post>> Handle(SearchPostsCommand request, CancellationToken cancellationToken)
         {
             var sanitizedQuery = SanitizeSearchQuery(request.Query);
-            
+
             var sql = @"
                 SELECT * 
                 FROM posts
@@ -31,9 +31,16 @@ public class SearchPosts
                 LIMIT 5;
             ";
 
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+
             var posts = await _context.Posts
                 .FromSqlRaw(sql, sanitizedQuery)
                 .ToListAsync(cancellationToken);
+
+            stopwatch.Stop();
+            var elapsedSeconds = stopwatch.Elapsed.TotalSeconds;
+            // You can log or output elapsedSeconds as needed, e.g.:
+            Console.WriteLine($"Query took {elapsedSeconds} seconds.");
 
             return posts;
         }

@@ -7,13 +7,14 @@ using PostService.Domain;
 using PostService.Infrastructure.Persistence;
 using Serilog;
 
+const string API_VERSION = "v2.0";
+
 Env.Load();
 
-var dbUser = Environment.GetEnvironmentVariable("DB_USERID") ?? "";
-var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "";
-var dbServer = Environment.GetEnvironmentVariable("DB_SERVER") ?? "";
-var dbPort = Environment.GetEnvironmentVariable("DB_PORT") ?? "";
+var dbHost = Environment.GetEnvironmentVariable("DB_HOST") ?? "";
 var dbDatabase = Environment.GetEnvironmentVariable("DB_DATABASE") ?? "";
+var dbUser = Environment.GetEnvironmentVariable("DB_USER") ?? "";
+var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "";
 
 var dbSearchDatabase = Environment.GetEnvironmentVariable("DB_SEARCH_DATABASE") ?? "";
 var dbSearchUser = Environment.GetEnvironmentVariable("DB_SEARCH_USERID") ?? "";
@@ -35,11 +36,12 @@ Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
     .CreateLogger();
 
+Log.Information("API Version: {Version}", API_VERSION);
 Log.Information("Starting up the application...");
 Log.Information("Checking environment variables...");
 
-if(string.IsNullOrEmpty(dbUser) || string.IsNullOrEmpty(dbPassword) || string.IsNullOrEmpty(dbServer) ||
-    string.IsNullOrEmpty(dbPort) || string.IsNullOrEmpty(dbDatabase))
+if (string.IsNullOrEmpty(dbUser) || string.IsNullOrEmpty(dbPassword) || string.IsNullOrEmpty(dbHost) ||
+   string.IsNullOrEmpty(dbDatabase))
 {
     Log.Error("Database connection information is missing.");
     throw new SystemException("Application misconfigured, primary database environment variables are missing.");
@@ -82,7 +84,7 @@ builder.Services.AddCors(options =>
 
 
 // Add DbContext
-var connectionString = $"User Id={dbUser};Password={dbPassword};Server={dbServer};Port={dbPort};Database={dbDatabase}";
+var connectionString = $"Host={dbHost};Database={dbDatabase};Username={dbUser};Password={dbPassword}";
 var searchConnectionString = $"User Id={dbSearchUser};Password={dbSearchPassword};Server={dbSearchServer};Port={dbSearchPort};Database={dbSearchDatabase}";
 
 builder.Services.AddHealthChecks();
