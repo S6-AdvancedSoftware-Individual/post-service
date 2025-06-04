@@ -25,7 +25,7 @@ public class SearchPosts
 
             var sql = @"
                 SELECT * 
-                FROM posts
+                FROM ""Posts""
                 WHERE fts @@ to_tsquery({0})
                 ORDER BY ""CreatedAt"" DESC
                 LIMIT 5;

@@ -7,7 +7,7 @@ using PostService.Domain;
 using PostService.Infrastructure.Persistence;
 using Serilog;
 
-const string API_VERSION = "v2.0";
+const string API_VERSION = "v2.3";
 
 Env.Load();
 
@@ -16,11 +16,10 @@ var dbDatabase = Environment.GetEnvironmentVariable("DB_DATABASE") ?? "";
 var dbUser = Environment.GetEnvironmentVariable("DB_USER") ?? "";
 var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "";
 
+var dbSearchHost = Environment.GetEnvironmentVariable("DB_SEARCH_HOST") ?? "";
 var dbSearchDatabase = Environment.GetEnvironmentVariable("DB_SEARCH_DATABASE") ?? "";
-var dbSearchUser = Environment.GetEnvironmentVariable("DB_SEARCH_USERID") ?? "";
+var dbSearchUser = Environment.GetEnvironmentVariable("DB_SEARCH_USER") ?? "";
 var dbSearchPassword = Environment.GetEnvironmentVariable("DB_SEARCH_PASSWORD") ?? "";
-var dbSearchServer = Environment.GetEnvironmentVariable("DB_SEARCH_SERVER") ?? "";
-var dbSearchPort = Environment.GetEnvironmentVariable("DB_SEARCH_PORT") ?? "";
 
 var betterstack_sourceToken = Environment.GetEnvironmentVariable("BETTERSTACK_SOURCETOKEN") ?? "";
 var betterstack_endpoint = Environment.GetEnvironmentVariable("BETTERSTACK_ENDPOINT") ?? "";
@@ -54,8 +53,7 @@ if (string.IsNullOrEmpty(betterstack_endpoint) || string.IsNullOrEmpty(bettersta
 
 }
 
-if (string.IsNullOrEmpty(dbSearchDatabase) || string.IsNullOrEmpty(dbSearchUser) || string.IsNullOrEmpty(dbSearchPassword) ||
-    string.IsNullOrEmpty(dbSearchServer) || string.IsNullOrEmpty(dbSearchPort))
+if (string.IsNullOrEmpty(dbSearchDatabase) || string.IsNullOrEmpty(dbSearchUser) || string.IsNullOrEmpty(dbSearchPassword) | string.IsNullOrEmpty(dbSearchHost))
 {
     Log.Error("Database search connection information is missing.");
     throw new SystemException("Application misconfigured, secondary database environment variables are missing.");
@@ -70,6 +68,7 @@ builder.Host.UseSerilog();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddMemoryCache();
 
 // Configure CORS
 builder.Services.AddCors(options =>
@@ -85,7 +84,7 @@ builder.Services.AddCors(options =>
 
 // Add DbContext
 var connectionString = $"Host={dbHost};Database={dbDatabase};Username={dbUser};Password={dbPassword}";
-var searchConnectionString = $"User Id={dbSearchUser};Password={dbSearchPassword};Server={dbSearchServer};Port={dbSearchPort};Database={dbSearchDatabase}";
+var searchConnectionString = $"Host={dbSearchHost};Database={dbSearchDatabase};Username={dbSearchUser};Password={dbSearchPassword}";
 
 builder.Services.AddHealthChecks();
 

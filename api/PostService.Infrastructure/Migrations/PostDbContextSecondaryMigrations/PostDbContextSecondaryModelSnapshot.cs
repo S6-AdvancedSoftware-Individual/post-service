@@ -8,10 +8,10 @@ using PostService.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace PostService.Infrastructure.Migrations
+namespace PostService.Infrastructure.Migrations.PostDbContextSecondaryMigrations
 {
-    [DbContext(typeof(PostDbContext))]
-    partial class PostDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(PostDbContextSecondary))]
+    partial class PostDbContextSecondaryModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
