@@ -1,0 +1,110 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\Users\joris\AppData\Local\Microsoft\WinGet\Links\kompose.exe convert
+    kompose.version: 1.35.0 (9532ceef3)
+  labels:
+    io.kompose.service: cockatoo-posts-api
+  name: cockatoo-posts-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: cockatoo-posts-api
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: C:\Users\joris\AppData\Local\Microsoft\WinGet\Links\kompose.exe convert
+        kompose.version: 1.35.0 (9532ceef3)
+      labels:
+        io.kompose.service: cockatoo-posts-api
+    spec:
+      containers:
+        - env:
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: cockatoo-global-secret
+                  key: DB_POSTS_HOST
+
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: cockatoo-global-secret
+                  key: DB_POSTS_DATABASE
+
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: cockatoo-global-secret
+                  key: DB_POSTS_USER
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cockatoo-global-secret
+                  key: DB_POSTS_PASSWORD
+
+            - name: DB_SEARCH_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: cockatoo-global-secret
+                  key: DB_SEARCH_HOST
+
+            - name: DB_SEARCH_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: cockatoo-global-secret
+                  key: DB_SEARCH_DATABASE
+
+            - name: DB_SEARCH_USER
+              valueFrom:
+                secretKeyRef:
+                  name: cockatoo-global-secret
+                  key: DB_SEARCH_USER
+
+            - name: DB_SEARCH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cockatoo-global-secret
+                  key: DB_SEARCH_PASSWORD
+
+            - name: BETTERSTACK_SOURCETOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: cockatoo-global-secret
+                  key: BETTERSTACK_SOURCETOKEN
+
+            - name: BETTERSTACK_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: cockatoo-global-secret
+                  key: BETTERSTACK_ENDPOINT
+
+            - name: COCKATOO_Q
+              valueFrom:
+                secretKeyRef:
+                  name: cockatoo-global-secret
+                  key: COCKATOO_Q
+
+            - name: COCKATOO_Q_USERNAME_TOPIC
+              valueFrom:
+                secretKeyRef:
+                  name: cockatoo-global-secret
+                  key: COCKATOO_Q_USERNAME_TOPIC
+
+          image: theartcher/cockatoo-posts-microservice
+          name: cockatoo-posts-api
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8081
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 400m
+            requests:
+              cpu: 300m
+      restartPolicy: Always

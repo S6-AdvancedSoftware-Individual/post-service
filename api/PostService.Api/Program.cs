@@ -3,11 +3,12 @@ using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using PostService.Application.Common.Interfaces;
+using PostService.Application.Features.Posts.Commands;
 using PostService.Domain;
 using PostService.Infrastructure.Persistence;
 using Serilog;
 
-const string API_VERSION = "v2.3";
+const string API_VERSION = "v2.6";
 
 Env.Load();
 
@@ -96,7 +97,9 @@ builder.Services.AddDbContext<PostDbContextSecondary>(options =>
 
 // Add MediatR
 builder.Services.AddMediatR(cfg =>
-    cfg.RegisterServicesFromAssembly(typeof(PostService.Application.Features.Posts.Commands.CreatePost).Assembly));
+    cfg.RegisterServicesFromAssembly(typeof(CreatePost).Assembly));
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(UpdateUsernameOnPostsCommand).Assembly));
 
 // Register DbContext interface
 builder.Services.AddScoped<IPostDbContext>(provider =>
@@ -108,6 +111,8 @@ builder.Services.AddScoped<IPostDbContextSecondary>(provider =>
 
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddHttpClient();
+
+builder.Services.AddHostedService<ServiceBusBackgroundService>();
 
 var app = builder.Build();
 

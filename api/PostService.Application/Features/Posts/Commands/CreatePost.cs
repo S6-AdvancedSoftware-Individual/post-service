@@ -25,8 +25,6 @@ public class CreatePost
             _accountService = accountService;
             _contextSecondary = contextSecondary;
         }
-
-
         public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
         {
             var authorName = await _accountService.GetAuthorNameAsync(request.AuthorId);

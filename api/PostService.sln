@@ -11,13 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostService.Infrastructure"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostService.Api", "PostService.Api\PostService.Api.csproj", "{535391E8-23C3-4966-A172-62142461EDFB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{30195D35-A80A-4BE6-A57F-C3BE1A358D91}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{976B440E-0F54-4E9C-B410-2D8311714976}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -36,5 +35,12 @@ Global
 		{535391E8-23C3-4966-A172-62142461EDFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{535391E8-23C3-4966-A172-62142461EDFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{535391E8-23C3-4966-A172-62142461EDFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30195D35-A80A-4BE6-A57F-C3BE1A358D91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30195D35-A80A-4BE6-A57F-C3BE1A358D91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30195D35-A80A-4BE6-A57F-C3BE1A358D91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30195D35-A80A-4BE6-A57F-C3BE1A358D91}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
