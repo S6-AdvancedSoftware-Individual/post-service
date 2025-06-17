@@ -8,7 +8,7 @@ using PostService.Domain;
 using PostService.Infrastructure.Persistence;
 using Serilog;
 
-const string API_VERSION = "v2.6";
+const string API_VERSION = "v2.7";
 
 Env.Load();
 

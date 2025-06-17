@@ -10,15 +10,28 @@ services:
     env_file:
       - .env
     environment:
-      - BETTERSTACK_SOURCETOKEN=${BETTERSTACK_SOURCETOKEN}
-      - BETTERSTACK_ENDPOINT=${BETTERSTACK_ENDPOINT}
-      - DB_USERID=${DB_USERID}
+      # Database connection
+      - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
-      - DB_SERVER=${DB_SERVER}
+      - DB_HOST=${DB_HOST}
       - DB_DATABASE=${DB_DATABASE}
-      - DB_PORT=${DB_PORT}
-      - DB_SEARCH_USERID=${DB_SEARCH_USERID}
-      - DB_SEARCH_PASSWORD=${DB_SEARCH_PASSWORD}
-      - DB_SEARCH_SERVER=${DB_SEARCH_SERVER}
-      - DB_SEARCH_PORT=${DB_SEARCH_PORT}
-      - DB_SEARCH_DATABASE=${DB_SEARCH_DATABASE}
+
+      # Search db connection
+      - SEARCH_DB_USER=${SEARCH_DB_USER}
+      - SEARCH_DB_PASSWORD=${SEARCH_DB_PASSWORD}
+      - SEARCH_DB_HOST=${SEARCH_DB_HOST}
+      - SEARCH_DB_DATABASE=${SEARCH_DB_DATABASE}
+
+      # Betterstack monitoring
+      - BETTERSTACK_SOURCETOKEN=${BETTERSTACK_SOURCETOKEN}
+
+      # Azure Message Bus
+      - BETTERSTACK_ENDPOINT=${BETTERSTACK_ENDPOINT}
+      - COCKATOO_Q=${COCKATOO_Q}
+      - COCKATOO_Q_USERNAME_TOPIC=${COCKATOO_Q_USERNAME_TOPIC}
+    networks:
+      - cockatoo-network
+
+networks:
+  cockatoo-network:
+    external: true

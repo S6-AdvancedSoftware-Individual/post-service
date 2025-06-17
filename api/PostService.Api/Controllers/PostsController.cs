@@ -2,8 +2,10 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using PostService.Application.Features.Posts.Commands;
+using PostService.Application.Features.Posts.Queries;
 using PostService.Domain.Entities;
 using Serilog;
+using System.Linq;
 using static PostService.Application.Features.Posts.Commands.SearchPosts;
 
 namespace PostService.Api.Controllers
@@ -70,7 +72,7 @@ namespace PostService.Api.Controllers
                 return Ok(cachedPosts);
             }
 
-            var result = await _mediator.Send(new ReadAllPosts.Command());
+            var result = await _mediator.Send(new ReadAllPosts.Query());
 
             if (result == null || result.Count == 0)
             {
@@ -99,6 +101,15 @@ namespace PostService.Api.Controllers
 
             Log.Information("Post with ID '{Id}' deleted successfully", id);
             return NoContent();
+        }
+
+        [EndpointDescription("Deletes a post by its ID.")]
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetFromUser([FromRoute] Guid id)
+        {
+            var result = await _mediator.Send(new ReadRecentPostsByUser.Query(id));
+            Log.Information("Retrieved {Count} posts by {Id}", result.Count, id);
+            return Ok(result);
         }
     }
 }

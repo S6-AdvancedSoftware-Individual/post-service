@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using PostService.Application.Common.Interfaces;
 using PostService.Domain.Entities;
 
-namespace PostService.Application.Features.Posts.Commands
+namespace PostService.Application.Features.Posts.Queries
 {
     public class ReadAllPosts
     {
-        public record Command() : IRequest<List<Post>>;
+        public record Query() : IRequest<List<Post>>;
 
-        public class Handler : IRequestHandler<Command, List<Post>>
+        public class Handler : IRequestHandler<Query, List<Post>>
         {
             private readonly IPostDbContext _context;
 
@@ -18,7 +18,7 @@ namespace PostService.Application.Features.Posts.Commands
                 _context = context;
             }
 
-            public async Task<List<Post>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<List<Post>> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _context.Posts
                     .OrderByDescending(p => p.UpdatedAt)
