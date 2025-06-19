@@ -36,7 +36,7 @@ namespace PostService.Api.Controllers
             if (result == null || result.Count == 0)
             {
                 Log.Information("No posts found for search query '{Query}'", q);
-                return Ok($"No posts found for search query '{q}'.");
+                return NotFound($"No posts found for search query '{q}'.");
             }
 
             Log.Information("Retrieved {Count} posts for search query '{Query}'", result.Count, q);
